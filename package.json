@@ -1,0 +1,23 @@
+{
+  "name": "angular-learning",
+  "version": "0.0.1",
+  "description": "angularjs 2 learning",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo 'no test defined'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dp9u0/angular-learning.git"
+  },
+  "keywords": [
+    "learning",
+    "angularjs2"
+  ],
+  "author": "guodp",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dp9u0/angular-learning/issues"
+  },
+  "homepage": "https://github.com/dp9u0/angular-learning#readme"
+}
