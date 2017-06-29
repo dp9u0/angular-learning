@@ -6,7 +6,7 @@
     <ul>
         <li *ngFor="let hero of heroes">{{hero}}</li>
     </ul>
-    <p *ngIf="heroes.length < 5">There are some heroes!</p>
+    <p *ngIf="heroes.length === 0">There are no heroes!</p>
     <span [ngSwitch]="heroes.length">
         <p *ngSwitchCase="1">
           There are One hero!
