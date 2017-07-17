@@ -2,18 +2,13 @@
 
 <h4>Pick a highlight color</h4>
 <div>
-  <input type="radio" name="colors" (click)="color='lightgreen'">Green
-  <input type="radio" name="colors" (click)="color='yellow'">Yellow
-  <input type="radio" name="colors" (click)="color='cyan'">Cyan
+    <input type="radio" name="colors" (click)="color= ''">Empty
+    <input type="radio" name="colors" (click)="color='lightgreen'">Green
+    <input type="radio" name="colors" (click)="color='yellow'">Yellow
+    <input type="radio" name="colors" (click)="color='cyan'">Cyan
 </div>
-<p [myHighlight]="color">Highlight me!</p>
+<p my-highlight>Highlight me!</p>
 
-<p [myHighlight]="color" defaultColor="violet">
-  Highlight me too!
-</p>
+<p [my-highlight]="color">Highlight me!(default:none)</p>
 
-<hr>
-<p><i>Mouse over the following lines to see fixed highlights</i></p>
-
-<p [myHighlight]="'yellow'">Highlighted in yellow</p>
-<p myHighlight="orange">Highlighted in orange</p>
+<p [my-highlight]="color" defaultColor="violet"> Highlight me too!(default:violet)</p>
