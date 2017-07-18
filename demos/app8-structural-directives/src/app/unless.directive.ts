@@ -14,8 +14,8 @@ import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
  * ### Syntax
  *
  * - `<div *myUnless="condition">...</div>`
- * - `<div template="myUnless condition">...</div>`
- * - `<template [myUnless]="condition"><div>...</div></template>`
+ * - `<div ngTemplate="myUnless condition">...</div>`
+ * - `<ng-template [myUnless]="condition"><div>...</div></ng-template>`
  *
  */
 @Directive({ selector: '[myUnless]'})

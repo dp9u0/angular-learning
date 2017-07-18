@@ -1,51 +1,91 @@
 <h1>Structural Directives</h1>
 
-<p>Conditional display of hero</p>
-
-<blockquote>
-<div *ngIf="hero" >{{hero.name}}</div>
-</blockquote>
-
-<p>List of heroes</p>
-
-<ul>
-  <li *ngFor="let hero of heroes">{{hero.name}}</li>
-</ul>
-
-
-<hr>
-
 <h2 id="ngIf">NgIf</h2>
 
-<p *ngIf="true">
-  Expression is true and ngIf is true.
-  This paragraph is in the DOM.
-</p>
-<p *ngIf="false">
-  Expression is false and ngIf is false.
-  This paragraph is not in the DOM.
-</p>
+<h4> NgIf</h4>
+<div *ngIf="hero">{{hero.name}}</div>
 
-<p [style.display]="'block'">
-  Expression sets display to "block".
-  This paragraph is visible.
-</p>
-<p [style.display]="'none'">
-  Expression sets display to "none".
-  This paragraph is hidden but still in the DOM.
-</p>
-
-<h4>NgIf with template</h4>
-<p>&lt;ng-template&gt; element</p>
-<ng-template [ngIf]="hero">
-  <div>{{hero.name}}</div>
+<h4> NgIf with template</h4>
+<ng-template ngIf [ngIf]="hero" let-condition>
+    <div>{{hero.name}}</div>
 </ng-template>
 
-<p>template attribute</p>
-<div template="ngIf hero">{{hero.name}}</div>
+<h4>NgIfThenElse</h4>
+<div *ngIf="hero; then thenTemplate1; else elseTemplate1"></div>
+<ng-template #thenTemplate1>
+    {{newHero}} Hero Name : {{hero.name}}
+</ng-template>
+<ng-template #elseTemplate1>
+    No Hero!
+</ng-template>
+
+<h4>NgIfThenElse with template</h4>
+<ng-template ngIf [ngIf]="hero" [ngIfThen]="thenTemplate" [ngIfElse]="elseTemplate" let-condit></ng-template>
+<ng-template #thenTemplate>
+    <div> {{condit}} Hero Name : {{hero.name}}</div>
+</ng-template>
+<ng-template #elseTemplate>
+    <div> No Hero! </div>
+</ng-template>
+<hr>
+
+<h2 id="ngFor">NgFor</h2>
+
+<div class="box">
+
+    <h4> NgFor</h4>
+    <p class="code">&lt;div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd"&gt;</p>
+    <div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd">
+        ({{i}}) {{hero.name}}
+    </div>
+
+    <h4> NgFor With Template</h4>
+    <p class="code">&lt;ng-template ngFor let-hero [ngForOf]="heroes" let-i="index" let-odd="odd" [ngForTrackBy]="trackById"&gt;</p>
+    <ng-template ngFor let-hero [ngForOf]="heroes" let-i="index" let-odd="odd" [ngForTrackBy]="trackById">
+        <div [class.odd]="odd">({{i}}) {{hero.name}}</div>
+    </ng-template>
+</div>
+<hr>
+
+<h2 id="ngSwitch">NgSwitch</h2>
+
+<div>Pick your favorite hero</div>
+<p>
+    <label *ngFor="let h of heroes">
+    <input type="radio" name="heroes" [(ngModel)]="hero" [value]="h">{{h.name}}
+  </label>
+    <label><input type="radio" name="heroes" (click)="hero = null">None of the above</label>
+</p>
+
+<h4>NgSwitch</h4>
+
+<div [ngSwitch]="hero?.emotion">
+    <happy-hero *ngSwitchCase="'happy'" [hero]="hero"></happy-hero>
+    <sad-hero *ngSwitchCase="'sad'" [hero]="hero"></sad-hero>
+    <confused-hero *ngSwitchCase="'confused'" [hero]="hero"></confused-hero>
+    <unknown-hero *ngSwitchDefault [hero]="hero"></unknown-hero>
+</div>
+
+<h4>NgSwitch with &lt;ng-template&gt;</h4>
+<div [ngSwitch]="hero?.emotion">
+    <ng-template [ngSwitchCase]="'happy'">
+        <happy-hero [hero]="hero"></happy-hero>
+    </ng-template>
+    <ng-template [ngSwitchCase]="'sad'">
+        <sad-hero [hero]="hero"></sad-hero>
+    </ng-template>
+    <ng-template [ngSwitchCase]="'confused'">
+        <confused-hero [hero]="hero"></confused-hero>
+    </ng-template>
+    <ng-template ngSwitchDefault>
+        <unknown-hero [hero]="hero"></unknown-hero>
+    </ng-template>
+</div>
 
 <hr>
 
+
+<!--想用微语法 但是不想包裹额外的元素 例如 span div 等 可以使用 ng container-->
 <h2 id="ng-container">&lt;ng-container&gt;</h2>
 
 <h4>*ngIf with a &lt;ng-container&gt;</h4>
@@ -53,24 +93,23 @@
 <button (click)="hero = hero ? null : heroes[0]">Toggle hero</button>
 
 <p>
-  I turned the corner
-  <ng-container *ngIf="hero">
-    and saw {{hero.name}}. I waved
-  </ng-container>
-  and continued on my way.
+    I turned the corner
+    <ng-container *ngIf="hero">
+        and saw {{hero.name}}. I waved
+    </ng-container>
+    and continued on my way.
 </p>
 <p>
-  I turned the corner
-  <span *ngIf="hero">
+    I turned the corner
+    <span *ngIf="hero">
     and saw {{hero.name}}. I waved
-  </span>
-  and continued on my way.
+  </span> and continued on my way.
 </p>
 
 <p><i>&lt;select&gt; with &lt;span&gt;</i></p>
 <div>
-  Pick your favorite hero
-  (<label><input type="checkbox" checked (change)="showSad = !showSad">show sad</label>)
+    Pick your favorite hero (
+    <label><input type="checkbox" checked (change)="showSad = !showSad">show sad</label>)
 </div>
 <select [(ngModel)]="hero">
   <span *ngFor="let h of heroes">
@@ -82,8 +121,8 @@
 
 <p><i>&lt;select&gt; with &lt;ng-container&gt;</i></p>
 <div>
-  Pick your favorite hero
-  (<label><input type="checkbox" checked (change)="showSad = !showSad">show sad</label>)
+    Pick your favorite hero (
+    <label><input type="checkbox" checked (change)="showSad = !showSad">show sad</label>)
 </div>
 <select [(ngModel)]="hero">
   <ng-container *ngFor="let h of heroes">
@@ -96,99 +135,20 @@
 
 <hr>
 
-<h2 id="ngFor">NgFor</h2>
-
-<div class="box">
-
-<p class="code">&lt;div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd"&gt;</p>
-<div *ngFor="let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd">
-  ({{i}}) {{hero.name}}
-</div>
-
-<p class="code">&lt;div template="ngFor let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd"&gt;</p>
-<div template="ngFor let hero of heroes; let i=index; let odd=odd; trackBy: trackById" [class.odd]="odd">
-  ({{i}}) {{hero.name}}
-</div>
-
-<p class="code">&lt;template ngFor let-hero [ngForOf]="heroes" let-i="index" let-odd="odd" [ngForTrackBy]="trackById"&gt;</p>
-<ng-template ngFor let-hero [ngForOf]="heroes" let-i="index" let-odd="odd" [ngForTrackBy]="trackById">
-  <div [class.odd]="odd">({{i}}) {{hero.name}}</div>
-</ng-template>
-
-</div>
-<hr>
-
-<h2 id="ngSwitch">NgSwitch</h2>
-
-<div>Pick your favorite hero</div>
-<p>
-  <label *ngFor="let h of heroes">
-    <input type="radio" name="heroes" [(ngModel)]="hero" [value]="h">{{h.name}}
-  </label>
-  <label><input type="radio" name="heroes" (click)="hero = null">None of the above</label>
-</p>
-
-<h4>NgSwitch</h4>
-
-<div [ngSwitch]="hero?.emotion">
-  <happy-hero    *ngSwitchCase="'happy'"    [hero]="hero"></happy-hero>
-  <sad-hero      *ngSwitchCase="'sad'"      [hero]="hero"></sad-hero>
-  <confused-hero *ngSwitchCase="'confused'" [hero]="hero"></confused-hero>
-  <unknown-hero  *ngSwitchDefault           [hero]="hero"></unknown-hero>
-</div>
-
-<h4>NgSwitch with <i>template</i> attribute</h4>
-<div [ngSwitch]="hero?.emotion">
-  <happy-hero    template="ngSwitchCase 'happy'"    [hero]="hero"></happy-hero>
-  <sad-hero      template="ngSwitchCase 'sad'"      [hero]="hero"></sad-hero>
-  <confused-hero template="ngSwitchCase 'confused'" [hero]="hero"></confused-hero>
-  <unknown-hero  template="ngSwitchDefault"         [hero]="hero"></unknown-hero>
-</div>
-
-<h4>NgSwitch with &lt;ng-template&gt;</h4>
-<div [ngSwitch]="hero?.emotion">
-  <ng-template [ngSwitchCase]="'happy'">
-    <happy-hero [hero]="hero"></happy-hero>
-  </ng-template>
-  <ng-template [ngSwitchCase]="'sad'">
-    <sad-hero [hero]="hero"></sad-hero>
-  </ng-template>
-  <ng-template [ngSwitchCase]="'confused'">
-    <confused-hero [hero]="hero"></confused-hero>
-  </ng-template >
-  <ng-template ngSwitchDefault>
-    <unknown-hero [hero]="hero"></unknown-hero>
-  </ng-template>
-</div>
-
-<hr>
-
-<h2>&lt;template&gt;</h2>
-<p>Hip!</p>
-<ng-template>
-  <p>Hip!</p>
-</ng-template>
-<p>Hooray!</p>
-
-<hr>
-
 <h2 id="myUnless">UnlessDirective</h2>
 <p>
-  The condition is currently
-  <span [ngClass]="{ a: !condition, b: condition, unless: true }">{{condition}}</span>.
-  <button
-    (click)="condition = !condition"
-    [ngClass] = "{ a: condition, b: !condition }" >
+    The condition is currently
+    <span [ngClass]="{ a: !condition, b: condition, unless: true }">{{condition}}</span>.
+    <button (click)="condition = !condition" [ngClass]="{ a: condition, b: !condition }">
     Toggle condition to {{condition ? 'false' : 'true'}}
   </button>
 </p>
 <p *myUnless="condition" class="unless a">
-  (A) This paragraph is displayed because the condition is false.
+    (A) This paragraph is displayed because the condition is false.
 </p>
 
 <p *myUnless="!condition" class="unless b">
-  (B) Although the condition is true,
-  this paragraph is displayed because myUnless is set to false.
+    (B) Although the condition is true, this paragraph is displayed because myUnless is set to false.
 </p>
 
 
@@ -196,13 +156,30 @@
 
 <p *myUnless="condition">Show this sentence unless the condition is true.</p>
 
-<p template="myUnless condition" class="code unless">
-  (A) &lt;p template="myUnless condition" class="code unless"&gt;
-</p>
+<!--<p template="myUnless condition" class="code unless">
+    (A) &lt;p template="myUnless condition" class="code unless"&gt;
+</p>-->
 
 <ng-template [myUnless]="condition">
-  <p class="code unless">
-    (A) &lt;template [myUnless]="condition"&gt;
-  </p>
+    <p class="code unless">
+        (A) &lt;template [myUnless]="condition"&gt;
+    </p>
 </ng-template>
 
+<hr>
+
+<h2>Range Directive</h2>
+
+<h4>Year:</h4>
+<select>
+    <ng-container *myRange="let num rangeOf [1998, 2016];">
+        <option [ngValue]="num">{{num}}</option>
+    </ng-container>
+</select>
+
+<h1>Your age:</h1>
+<select>
+    <ng-template myRange  [myRangeRangeOf]="[18, 80]" let-num>
+        <option [ngValue]="num">{{num}}</option>
+    </ng-template>
+</select>
