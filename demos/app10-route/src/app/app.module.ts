@@ -16,6 +16,8 @@ import { PageNotFoundComponent }   from './not-found.component';
 
 import { DialogService }           from './dialog.service';
 
+import { TestModule } from './test/test.module';
+
 @NgModule({
   imports: [
     BrowserModule,
@@ -23,7 +25,8 @@ import { DialogService }           from './dialog.service';
     HeroesModule,
     LoginRoutingModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    TestModule
   ],
   declarations: [
     AppComponent,

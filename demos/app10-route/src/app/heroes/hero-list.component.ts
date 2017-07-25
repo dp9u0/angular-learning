@@ -34,6 +34,7 @@ export class HeroListComponent implements OnInit {
   ngOnInit() {
     this.heroes = this.route.params
       .switchMap((params: Params) => {
+        // (+) converts string 'id' to a number
         this.selectedId = +params['id'];
         return this.service.getHeroes();
       });

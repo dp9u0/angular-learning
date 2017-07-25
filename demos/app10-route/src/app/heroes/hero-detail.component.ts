@@ -49,6 +49,7 @@ export class HeroDetailComponent implements OnInit {
     // Pass along the hero id if available
     // so that the HeroList component can select that hero.
     // Include a junk 'foo' property for fun.
+    // 可选的路由参数没有使用“？”和“&”符号分隔，因为它们将用在URL查询字符串中。 它们是用“;”分隔的。 这是矩阵URL标记法 —— 我们以前可能从未见过。
     this.router.navigate(['/heroes', { id: heroId, foo: 'foo' }]);
   }
 }
